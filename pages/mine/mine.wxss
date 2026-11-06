@@ -1,0 +1,228 @@
+.profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 40rpx 32rpx;
+  background: linear-gradient(135deg, #3A6BFF 0%, #6E8CFF 100%);
+  box-sizing: border-box;
+}
+
+.avatar {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 56rpx;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+}
+
+.avatar-t {
+  font-size: 34rpx;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.p-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.p-name {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.p-sub {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 6rpx;
+}
+
+.credit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.credit-n {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.credit-l {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.stats {
+  display: flex;
+  flex-direction: row;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  margin: -32rpx 24rpx 20rpx;
+  padding: 28rpx 0;
+  box-sizing: border-box;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #1A1D26;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: #8A8FA3;
+  margin-top: 4rpx;
+}
+
+.c-orange { color: #FF9F43; }
+.c-blue { color: #3A6BFF; }
+.c-green { color: #12B981; }
+
+.menu-card {
+  padding: 8rpx 24rpx;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 24rpx 4rpx;
+  border-bottom: 2rpx solid #F5F6FA;
+}
+
+.menu:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  font-size: 36rpx;
+  margin-right: 20rpx;
+}
+
+.menu-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-name {
+  font-size: 28rpx;
+  color: #1A1D26;
+}
+
+.menu-desc {
+  font-size: 22rpx;
+  color: #8A8FA3;
+  margin-top: 4rpx;
+}
+
+.menu-arrow {
+  font-size: 32rpx;
+  color: #C9CFDD;
+}
+
+/* 头像选择按钮（编辑态）：抹掉默认按钮样式 */
+.avatar-btn {
+  width: 112rpx;
+  height: 112rpx;
+  min-height: 112rpx;
+  border-radius: 56rpx;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 0;
+  margin: 0 24rpx 0 0;
+  line-height: normal;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-btn::after {
+  border: none;
+}
+
+.avatar-img {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 56rpx;
+}
+
+/* 编辑资料表单 */
+.form-card {
+  padding: 24rpx 28rpx;
+  margin-top: 20rpx;
+}
+
+.form-tip {
+  font-size: 22rpx;
+  color: #8A8FA3;
+  margin-bottom: 12rpx;
+}
+
+.field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 2rpx solid #F5F6FA;
+}
+
+.field-label {
+  width: 140rpx;
+  font-size: 28rpx;
+  color: #1A1D26;
+}
+
+.field-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #1A1D26;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: row;
+  margin-top: 28rpx;
+}
+
+.btn-ghost,
+.btn-primary {
+  flex: 1;
+  height: 80rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-ghost {
+  margin-right: 16rpx;
+  background: #F2F4F9;
+  color: #5A6072;
+}
+
+.btn-primary {
+  background: #3A6BFF;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.foot-tip {
+  padding: 40rpx 32rpx;
+  text-align: center;
+}

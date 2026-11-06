@@ -1,0 +1,173 @@
+<view class="page" wx:if="{{item}}">
+  <!-- 头部 -->
+  <view class="head {{item.type === 'lost' ? 'head-lost' : 'head-found'}}">
+    <view class="head-top">
+      <text class="head-emoji">{{emoji}}</text>
+      <view class="head-info">
+        <text class="head-title">{{item.title}}</text>
+        <view class="head-tags">
+          <text class="tag {{item.type === 'lost' ? 'tag-lost' : 'tag-found'}}">{{typeText}}</text>
+          <text class="tag tag-brand">{{item.category}}</text>
+          <text wx:if="{{item.status === 'closed'}}" class="tag">已解决</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 基本信息 -->
+  <view class="card">
+    <view class="kv">
+      <text class="k">地点</text>
+      <text class="v">📍 {{item.place}}</text>
+    </view>
+    <view class="kv">
+      <text class="k">时间</text>
+      <text class="v">🕒 {{item.time}}</text>
+    </view>
+    <view class="kv">
+      <text class="k">发布者</text>
+      <text class="v">👤 {{item.author}} · {{pubTime}}</text>
+    </view>
+    <view class="kv" wx:if="{{item.contact}}">
+      <text class="k">联系方式</text>
+      <text class="v v-contact">{{item.contact}}</text>
+    </view>
+    <text wx:if="{{!contactRevealed}}" class="v-tip">为保护隐私，联系方式已脱敏；留下线索后即可看到完整信息</text>
+  </view>
+
+  <!-- 描述 -->
+  <view class="card">
+    <text class="card-title">{{item.type === 'lost' ? '丢失经过与物品描述' : '拾获经过与物品描述'}}</text>
+    <text class="desc">{{item.desc}}</text>
+    <view class="chips" wx:if="{{item.features.length > 0}}">
+      <text class="chip" wx:for="{{item.features}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 图片 -->
+  <view class="card" wx:if="{{item.images.length > 0}}">
+    <text class="card-title">现场照片</text>
+    <view class="imgs">
+      <image
+        class="img"
+        wx:for="{{item.images}}"
+        wx:key="*this"
+        src="{{item}}"
+        mode="aspectFill"
+        data-url="{{item}}"
+        data-index="{{index}}"
+        bindtap="previewImage"
+        binderror="onImgError"
+      />
+    </view>
+  </view>
+
+  <!-- 智能匹配 -->
+  <view class="match-wrap">
+    <view class="row-between m-head">
+      <text class="card-title">智能匹配推荐</text>
+      <text class="sub">基于类目 / 特征 / 地点 / 时间</text>
+    </view>
+
+    <view wx:if="{{matches.length > 0}}">
+      <view
+        class="match-card"
+        wx:for="{{matches}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="goMatch"
+      >
+        <view class="row-between">
+          <text class="m-title ellipsis">{{item.title}}</text>
+          <text class="m-score {{item.level === 'high' ? 's-high' : ''}}">{{item.score}}%</text>
+        </view>
+        <view class="bar">
+          <view class="bar-in {{item.level}}" style="width:{{item.score}}%"></view>
+        </view>
+        <view class="m-reasons">
+          <text class="m-reason" wx:for="{{item.reasons}}" wx:for-item="r" wx:key="*this">{{r}}</text>
+        </view>
+        <view class="m-foot">
+          <text class="sub">📍 {{item.place}} · {{item.time}}</text>
+          <text class="m-go">查看详情 ›</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:else class="no-match">
+      <text class="sub">暂时没有高匹配度的{{item.type === 'lost' ? '招领' : '寻物'}}信息，可以先留下线索或等待新登记。</text>
+    </view>
+  </view>
+
+  <!-- 线索 -->
+  <view class="card">
+    <view class="row-between">
+      <text class="card-title">热心线索（{{clues.length}}）</text>
+      <text class="sub">按相关度排序</text>
+    </view>
+
+    <view wx:if="{{clues.length > 0}}">
+      <view class="clue" wx:for="{{clues}}" wx:key="id">
+        <view class="row-between">
+          <text class="clue-author">💬 {{item.author}}</text>
+          <text class="clue-score">相关度 {{item.score}}%</text>
+        </view>
+        <text class="clue-content">{{item.content}}</text>
+        <view class="row-between">
+          <text class="sub">{{item.timeText}}</text>
+          <text wx:if="{{item.contact}}" class="sub">联系方式：{{item.contact}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="no-match">
+      <text class="sub">还没有人提供线索，如果你见过类似的物品，请留言告诉 TA。</text>
+    </view>
+  </view>
+
+  <!-- 提交线索 -->
+  <view class="card">
+    <text class="card-title">提供一条线索</text>
+    <textarea
+      class="clue-input"
+      value="{{clueText}}"
+      maxlength="200"
+      placeholder="例如：昨天在图书馆三楼靠窗座位看到过一张蓝色卡片，可能掉进桌缝了"
+      placeholder-class="ph"
+      bindinput="onClueInput"
+    />
+    <input
+      class="input mt"
+      value="{{clueContact}}"
+      maxlength="30"
+      placeholder="你的联系方式（选填）"
+      placeholder-class="ph"
+      bindinput="onClueContact"
+    />
+    <view class="btn submit" bindtap="submitClue"><text>提交线索</text></view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="footbar">
+    <view class="fb-btn" bindtap="onFav">
+      <text class="fb-icon">{{fav ? '★' : '☆'}}</text>
+      <text class="fb-text">{{fav ? '已收藏' : '收藏'}}</text>
+    </view>
+    <view class="fb-btn" bindtap="copyContact">
+      <text class="fb-icon">📋</text>
+      <text class="fb-text">复制联系方式</text>
+    </view>
+    <view wx:if="{{!isMine}}" class="fb-btn" bindtap="onReport">
+      <text class="fb-icon">⚠️</text>
+      <text class="fb-text">举报</text>
+    </view>
+    <view wx:if="{{isMine}}" class="fb-btn" bindtap="onDelete">
+      <text class="fb-icon">🗑</text>
+      <text class="fb-text">删除</text>
+    </view>
+    <view wx:if="{{isMine && item.status === 'processing'}}" class="fb-main" bindtap="goClaims"><text>查看认领申请</text></view>
+    <view wx:elif="{{canResolve}}" class="fb-main" bindtap="onResolve"><text>标记已解决</text></view>
+    <view wx:elif="{{canReopen}}" class="fb-main" bindtap="onReopen"><text>重新开启</text></view>
+    <view wx:elif="{{canClaim}}" class="fb-main" bindtap="goApplyClaim"><text>申请认领</text></view>
+    <view wx:elif="{{!isMine}}" class="fb-main" bindtap="goPublish"><text>我也发一条</text></view>
+  </view>
+</view>

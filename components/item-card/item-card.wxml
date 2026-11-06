@@ -1,0 +1,26 @@
+<view class="icard" bindtap="onTap">
+  <view class="ic-left {{item.type === 'lost' ? 'bg-lost' : 'bg-found'}}">
+    <text class="ic-emoji">{{emoji}}</text>
+    <text wx:if="{{closed}}" class="ic-closed">已解决</text>
+  </view>
+
+  <view class="ic-body">
+    <view class="row-between">
+      <text class="ic-title ellipsis">{{item.title}}</text>
+      <text class="tag {{typeClass}}">{{typeText}}</text>
+    </view>
+
+    <view class="ic-line">
+      <text class="ic-place ellipsis">📍 {{item.place}} · {{item.time}}</text>
+    </view>
+
+    <view class="ic-feats" wx:if="{{feats.length > 0}}">
+      <text class="ic-feat" wx:for="{{feats}}" wx:key="*this">{{item}}</text>
+    </view>
+
+    <view class="ic-foot">
+      <text class="ic-clue">💬 {{clueCount}} 条线索</text>
+      <text wx:if="{{best > 0}}" class="ic-best {{best >= 70 ? 'ic-best-high' : ''}}">最高匹配 {{best}}%</text>
+    </view>
+  </view>
+</view>

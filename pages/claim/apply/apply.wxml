@@ -1,0 +1,41 @@
+<view class="page">
+  <view wx:if="{{item}}" class="card hero">
+    <view class="hero-row">
+      <text class="hero-emoji">{{emoji}}</text>
+      <view class="hero-main">
+        <text class="hero-title">{{item.title}}</text>
+        <text class="hero-sub">{{item.category}} · {{item.place}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <text class="card-title">物品特征（仅发布者可见）</text>
+    <textarea
+      class="textarea"
+      value="{{proofText}}"
+      maxlength="500"
+      placeholder="请描述只有失主才知道的细节，例如：钱包内侧夹层有一张蓝色卡、背面有一道划痕"
+      placeholder-class="ph"
+      bindinput="onProof"
+    />
+    <text class="hint">这段内容不会公开，只有你和发布者能看到。</text>
+  </view>
+
+  <view class="card">
+    <text class="card-title">交接联系方式</text>
+    <input
+      class="input"
+      value="{{contact}}"
+      maxlength="64"
+      placeholder="手机号 / 微信号"
+      placeholder-class="ph"
+      bindinput="onContact"
+    />
+    <text class="hint">申请被接受后，双方才能看到对方的完整联系方式。</text>
+  </view>
+
+  <view class="btn {{submitting ? 'btn-disabled' : ''}}" bindtap="submit">
+    <text>{{submitting ? '提交中…' : '提交认领申请'}}</text>
+  </view>
+</view>

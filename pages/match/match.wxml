@@ -1,0 +1,106 @@
+<view class="page">
+  <!-- 说明 -->
+  <view class="hero">
+    <text class="hero-t">🧩 线索智能匹配</text>
+    <text class="hero-d">{{tip}}</text>
+  </view>
+
+  <!-- 选择基准 -->
+  <view class="card">
+    <view class="row-between">
+      <text class="card-title">① 选择一条我的登记</text>
+      <text class="sub">点一下可取消</text>
+    </view>
+
+    <scroll-view wx:if="{{bases.length > 0}}" class="bases" scroll-x enable-flex>
+      <view class="bases-inner">
+        <view
+          wx:for="{{bases}}"
+          wx:key="id"
+          class="base {{item.id === baseId ? 'base-on' : ''}}"
+          data-id="{{item.id}}"
+          bindtap="onPickBase"
+        >
+          <text class="base-emoji">{{item.emoji}}</text>
+          <text class="base-title ellipsis">{{item.title}}</text>
+          <view class="base-foot">
+            <text class="base-type {{item.type === 'lost' ? 't-lost' : 't-found'}}">{{item.typeText}}</text>
+            <text class="sub">💬 {{item.clueCount}}</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view wx:else class="no-base">
+      <text class="sub">你还没有进行中的登记，先去发布一条，匹配会更精准。</text>
+      <view class="btn btn-ghost go-pub" bindtap="goPublish"><text>去发布</text></view>
+    </view>
+
+    <view class="divider"></view>
+
+    <text class="card-title">② 补充关键词（选填）</text>
+    <view class="search">
+      <text class="s-icon">🔍</text>
+      <input
+        class="s-input"
+        value="{{keyword}}"
+        placeholder="没有登记也可直接搜，如：黑色钱包 图书馆"
+        placeholder-class="ph"
+        confirm-type="search"
+        bindinput="onKeyword"
+        bindconfirm="run"
+      />
+    </view>
+
+    <view class="row-between cat-row">
+      <text class="sub">类目限定</text>
+      <picker mode="selector" range="{{cats}}" value="{{catIndex}}" bindchange="onCat">
+        <view class="mini-picker"><text>{{cats[catIndex]}} ▾</text></view>
+      </picker>
+    </view>
+
+    <view class="btn submit" bindtap="run"><text>开始匹配</text></view>
+  </view>
+
+  <!-- 结果 -->
+  <view wx:if="{{results.length > 0}}">
+    <view class="res-head">
+      <text class="res-t">匹配结果 {{results.length}} 条</text>
+      <text class="res-top">最高 {{top}}%</text>
+    </view>
+
+    <view class="res" wx:for="{{results}}" wx:key="id">
+      <view class="row-between">
+        <view class="res-l">
+          <text class="res-emoji">{{item.emoji}}</text>
+          <view class="res-info">
+            <text class="res-title ellipsis">{{item.title}}</text>
+            <text class="sub">📍 {{item.place}} · {{item.time}}</text>
+          </view>
+        </view>
+        <view class="res-r">
+          <text class="res-score {{item.level === 'high' ? 's-high' : ''}}">{{item.score}}%</text>
+          <text class="res-dir">{{item.dir}}</text>
+        </view>
+      </view>
+
+      <view class="bar">
+        <view class="bar-in {{item.level}}" style="width:{{item.score}}%"></view>
+      </view>
+
+      <view class="m-reasons">
+        <text class="m-reason" wx:for="{{item.reasons}}" wx:for-item="r" wx:key="*this">{{r}}</text>
+      </view>
+
+      <view class="row-between res-foot">
+        <view class="btn btn-ghost mini" data-contact="{{item.contact}}" bindtap="copyContact"><text>复制联系方式</text></view>
+        <view class="btn mini" data-id="{{item.id}}" bindtap="goDetail"><text>查看详情</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="empty">
+    <text class="empty-icon">🧭</text>
+    <text class="empty-text">选择登记或输入关键词后开始匹配</text>
+  </view>
+</view>

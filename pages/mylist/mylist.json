@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "列表",
+  "usingComponents": {
+    "item-card": "/components/item-card/item-card"
+  }
+}

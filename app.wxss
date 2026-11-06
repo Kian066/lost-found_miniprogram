@@ -1,0 +1,128 @@
+/**app.wxss**/
+page {
+  background: #F5F6FA;
+  color: #1A1D26;
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+.page {
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+  box-sizing: border-box;
+}
+
+/* 卡片 */
+.card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin: 0 24rpx 20rpx;
+  box-sizing: border-box;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1D26;
+}
+
+/* 通用行 */
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.row-between {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* 标签 */
+.tag {
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  background: #F0F2F7;
+  color: #6B7185;
+}
+
+.tag-lost {
+  background: #FFF1EC;
+  color: #FF6B4A;
+}
+
+.tag-found {
+  background: #E8F9F1;
+  color: #12B981;
+}
+
+.tag-brand {
+  background: #EAF0FF;
+  color: #3A6BFF;
+}
+
+/* 按钮 */
+.btn {
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+  background: #3A6BFF;
+  color: #FFFFFF;
+  box-sizing: border-box;
+}
+
+.btn-ghost {
+  background: #FFFFFF;
+  color: #3A6BFF;
+  border: 2rpx solid #3A6BFF;
+}
+
+.btn-gray {
+  background: #F0F2F7;
+  color: #8A8FA3;
+}
+
+/* 次要文本 */
+.sub {
+  color: #8A8FA3;
+  font-size: 24rpx;
+}
+
+/* 分割线 */
+.divider {
+  height: 2rpx;
+  background: #F0F2F7;
+  margin: 24rpx 0;
+}
+
+/* 空态 */
+.empty {
+  padding: 120rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  color: #8A8FA3;
+  font-size: 26rpx;
+}
+
+/* 单行省略（webview 下 text 默认 inline，需显式 block） */
+.ellipsis {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

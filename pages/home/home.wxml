@@ -1,0 +1,100 @@
+<view class="page">
+  <!-- 顶部 -->
+  <view class="hero">
+    <view class="hero-title">
+      <text class="h1">校园失物招领</text>
+      <text class="h2">丢了别急，捡到别藏 · 让物品回到主人手里</text>
+    </view>
+
+    <view class="search">
+      <text class="s-icon">🔍</text>
+      <input
+        class="s-input"
+        value="{{keyword}}"
+        placeholder="搜物品 / 地点 / 特征，如「图书馆 一卡通」"
+        placeholder-class="s-ph"
+        confirm-type="search"
+        bindinput="onInput"
+        bindconfirm="onInput"
+      />
+      <text wx:if="{{keyword}}" class="s-clear" bindtap="onClear">✕</text>
+    </view>
+  </view>
+
+  <!-- 数据概览 -->
+  <view class="stats">
+    <view class="stat">
+      <text class="stat-num">{{stats.lost}}</text>
+      <text class="stat-label">寻物启事</text>
+    </view>
+    <view class="stat">
+      <text class="stat-num c-green">{{stats.found}}</text>
+      <text class="stat-label">失物招领</text>
+    </view>
+    <view class="stat">
+      <text class="stat-num c-blue">{{stats.clue}}</text>
+      <text class="stat-label">热心线索</text>
+    </view>
+    <view class="stat">
+      <text class="stat-num c-orange">{{stats.solved}}</text>
+      <text class="stat-label">已找回</text>
+    </view>
+  </view>
+
+  <!-- 快速匹配入口 -->
+  <view class="banner" bindtap="goMatch">
+    <view class="banner-l">
+      <text class="banner-t">智能线索匹配</text>
+      <text class="banner-d">选择你的登记，自动在全库寻找最可能的主人 / 失主</text>
+    </view>
+    <text class="banner-btn">去匹配 ›</text>
+  </view>
+
+  <!-- 分类 -->
+  <scroll-view class="cats" scroll-x enable-flex>
+    <view class="cats-inner">
+      <view
+        wx:for="{{cats}}"
+        wx:key="*this"
+        class="cat {{index === catIndex ? 'cat-on' : ''}}"
+        data-index="{{index}}"
+        bindtap="onCat"
+      >
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 类型切换 -->
+  <view class="tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="tab {{index === tabIndex ? 'tab-on' : ''}}"
+      data-index="{{index}}"
+      bindtap="onTab"
+    >
+      <text>{{item.name}}</text>
+    </view>
+  </view>
+
+  <!-- 列表 -->
+  <view wx:if="{{list.length > 0}}">
+    <item-card
+      wx:for="{{list}}"
+      wx:key="id"
+      item="{{item}}"
+      best="{{item._best}}"
+      bind:tap="goDetail"
+    />
+    <view class="more">
+      <text class="sub">{{hasMore ? '上拉加载更多' : '— 共 ' + total + ' 条，已全部显示 —'}}</text>
+    </view>
+  </view>
+
+  <view wx:else class="empty">
+    <text class="empty-icon">🔎</text>
+    <text class="empty-text">没有找到相关登记</text>
+    <view class="empty-btn" bindtap="goPublish"><text>发布一条信息</text></view>
+  </view>
+</view>

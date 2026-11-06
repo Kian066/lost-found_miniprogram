@@ -1,0 +1,74 @@
+<view class="page">
+  <!-- 非管理员：引导开通 -->
+  <view wx:if="{{!isAdmin}}" class="card">
+    <text class="card-title">需要管理员权限</text>
+    <text class="hint">管理后台只对 role=ADMIN 的账号开放。如果系统里还没有任何管理员，可以由当前账号一次性开通。</text>
+    <view class="btn {{booting ? 'btn-disabled' : ''}}" bindtap="bootstrap">
+      <text>{{booting ? '开通中…' : '成为管理员'}}</text>
+    </view>
+  </view>
+
+  <block wx:else>
+    <view class="tabs">
+      <view class="tab {{tab === 'items' ? 'tab-on' : ''}}" data-tab="items" bindtap="switchTab">
+        <text>信息管理</text>
+      </view>
+      <view class="tab {{tab === 'reports' ? 'tab-on' : ''}}" data-tab="reports" bindtap="switchTab">
+        <text>举报处理</text>
+      </view>
+    </view>
+
+    <!-- 信息管理 -->
+    <block wx:if="{{tab === 'items'}}">
+      <view class="toolbar">
+        <text class="count">共 {{total}} 条</text>
+        <text class="filter {{onlyHidden ? 'filter-on' : ''}}" bindtap="toggleHidden">
+          {{onlyHidden ? '看全部' : '只看已下架'}}
+        </text>
+      </view>
+
+      <view class="card" wx:for="{{items}}" wx:key="id">
+        <view class="row" data-id="{{item.id}}" bindtap="goDetail">
+          <text class="title">{{item.title}}</text>
+          <text class="badge {{item.visible === false ? 'muted' : 'ok'}}">{{item.statusText}}</text>
+        </view>
+        <view class="row sub-row">
+          <text class="sub">{{item.type === 'found' ? '招领' : '寻物'}} · {{item.category}} · {{item.author}}</text>
+          <text wx:if="{{item.visible === false}}" class="sub muted-text">已下架</text>
+        </view>
+        <view class="btn-row">
+          <view wx:if="{{item.visible !== false}}" class="btn ghost" data-id="{{item.id}}" catchtap="hideItem">
+            <text>下架</text>
+          </view>
+          <view wx:else class="btn primary" data-id="{{item.id}}" catchtap="restoreItem">
+            <text>恢复展示</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 举报处理 -->
+    <block wx:else>
+      <view wx:if="{{reports.length === 0}}" class="empty">
+        <text class="empty-icon">🛡️</text>
+        <text class="empty-text">暂无举报</text>
+      </view>
+
+      <view class="card" wx:for="{{reports}}" wx:key="id">
+        <view class="row">
+          <text class="title" data-id="{{item.postId}}" bindtap="goDetail">{{item.itemTitle}}</text>
+          <text class="badge {{item.status === 'PENDING' ? 'warn' : 'muted'}}">{{item.statusText}}</text>
+        </view>
+        <text class="reason">{{item.reason}}</text>
+        <view class="btn-row" wx:if="{{item.status === 'PENDING'}}">
+          <view class="btn ghost" data-id="{{item.id}}" data-op="ignore" bindtap="handleReport">
+            <text>忽略</text>
+          </view>
+          <view class="btn primary" data-id="{{item.id}}" data-op="handle" bindtap="handleReport">
+            <text>处理</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </block>
+</view>

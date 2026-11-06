@@ -1,0 +1,70 @@
+<view class="page" wx:if="{{claim}}">
+  <view class="card">
+    <view class="row">
+      <text class="title">{{item ? item.title : '关联信息已删除'}}</text>
+      <text class="badge">{{statusText}}</text>
+    </view>
+    <view class="row sub-row">
+      <text class="sub">申请时间 {{claim.timeText}}</text>
+      <text class="link" wx:if="{{item}}" bindtap="goItem">查看登记 ›</text>
+    </view>
+    <text wx:if="{{claim.reason}}" class="reason">说明：{{claim.reason}}</text>
+  </view>
+
+  <view class="card" wx:if="{{claim.proofText}}">
+    <text class="card-title">物品特征说明</text>
+    <text class="proof">{{claim.proofText}}</text>
+  </view>
+
+  <view class="card" wx:if="{{claim.applicantContact || claim.finderContact}}">
+    <text class="card-title">交接联系方式</text>
+    <view class="kv" wx:if="{{claim.applicantContact}}">
+      <text class="k">申请人</text>
+      <text class="v">{{claim.applicantContact}}</text>
+    </view>
+    <view class="kv" wx:if="{{claim.finderContact}}">
+      <text class="k">发布者</text>
+      <text class="v">{{claim.finderContact}}</text>
+    </view>
+    <text class="hint">仅双方可见，请勿外传。</text>
+  </view>
+
+  <!-- 发布者处理 -->
+  <view class="card" wx:if="{{canDecide}}">
+    <text class="card-title">处理这条申请</text>
+    <input
+      class="input"
+      value="{{finderContact}}"
+      maxlength="64"
+      placeholder="你的交接联系方式（接受后对方可见）"
+      placeholder-class="ph"
+      bindinput="onFinder"
+    />
+    <input
+      class="input mt"
+      value="{{reason}}"
+      maxlength="100"
+      placeholder="拒绝原因（拒绝时填写，选填）"
+      placeholder-class="ph"
+      bindinput="onReason"
+    />
+    <view class="btn-row">
+      <view class="btn ghost" bindtap="reject"><text>拒绝</text></view>
+      <view class="btn primary" bindtap="accept"><text>接受申请</text></view>
+    </view>
+  </view>
+
+  <!-- 已接受的交接中 -->
+  <view class="card" wx:if="{{canComplete || canCancel}}">
+    <text class="card-title">交接中</text>
+    <text class="hint">物品交还后请点击「确认归还」，系统会结束这条登记并自动拒绝其他申请。</text>
+    <view class="btn-row">
+      <view class="btn ghost" bindtap="cancel"><text>取消交接</text></view>
+      <view class="btn primary" wx:if="{{canComplete}}" bindtap="complete"><text>确认归还</text></view>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{!canDecide && !canComplete && !canCancel}}">
+    <text class="hint">当前没有可执行的操作。</text>
+  </view>
+</view>

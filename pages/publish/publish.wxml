@@ -1,0 +1,204 @@
+<view class="page">
+  <!-- 类型切换 -->
+  <view class="type-wrap">
+    <view
+      wx:for="{{types}}"
+      wx:key="key"
+      class="type {{index === typeIndex ? 'type-on' : ''}}"
+      data-index="{{index}}"
+      bindtap="onType"
+    >
+      <text class="type-name">{{item.name}}</text>
+      <text class="type-hint">{{item.hint}}</text>
+    </view>
+  </view>
+
+  <!-- AI 辅助填写 -->
+  <view class="ai-card">
+    <view class="ai-head">
+      <text class="ai-title">AI 辅助填写</text>
+      <text class="ai-sub">
+        {{aiResult ? (aiResult.degraded ? '未配置模型，已用规则匹配' : '已由模型生成建议') : '根据你写的描述或选的图片自动识别字段'}}
+      </text>
+    </view>
+
+    <view wx:if="{{!aiResult}}" class="ai-btn {{aiLoading ? 'ai-btn-off' : ''}}" bindtap="runAi">
+      <text>{{aiLoading ? '识别中…' : '✨ AI 帮我填'}}</text>
+    </view>
+
+    <block wx:else>
+      <view class="ai-item" wx:if="{{aiResult.suggestions.title}}">
+        <text class="ai-k">名称</text>
+        <text class="ai-v">{{aiResult.suggestions.title}}</text>
+      </view>
+      <view class="ai-item" wx:if="{{aiResult.suggestions.category}}">
+        <text class="ai-k">类别</text>
+        <text class="ai-v">{{aiResult.suggestions.category}}</text>
+      </view>
+      <view class="ai-item" wx:if="{{aiResult.suggestions.place}}">
+        <text class="ai-k">地点</text>
+        <text class="ai-v">{{aiResult.suggestions.place}}</text>
+      </view>
+      <view class="ai-item" wx:if="{{aiResult.suggestions.color}}">
+        <text class="ai-k">颜色</text>
+        <text class="ai-v">{{aiResult.suggestions.color}}</text>
+      </view>
+      <view class="ai-item" wx:if="{{aiResult.suggestions.brand}}">
+        <text class="ai-k">品牌</text>
+        <text class="ai-v">{{aiResult.suggestions.brand}}</text>
+      </view>
+      <view class="ai-item" wx:if="{{aiResult.suggestions.featuresText}}">
+        <text class="ai-k">特征</text>
+        <text class="ai-v">{{aiResult.suggestions.featuresText}}</text>
+      </view>
+      <view class="ai-item" wx:if="{{aiResult.suggestions.desc}}">
+        <text class="ai-k">描述</text>
+        <text class="ai-v">{{aiResult.suggestions.desc}}</text>
+      </view>
+
+      <view class="ai-actions">
+        <view class="ai-act ghost" bindtap="closeAi"><text>忽略</text></view>
+        <view class="ai-act primary" bindtap="applyAi"><text>应用到表单</text></view>
+      </view>
+      <text class="ai-hint">只填补空字段，不会覆盖你已经写好的内容。</text>
+    </block>
+  </view>
+
+  <view class="card">
+    <view class="field">
+      <text class="label">物品名称 <text class="req">*</text></text>
+      <input
+        class="input"
+        data-key="title"
+        value="{{title}}"
+        maxlength="30"
+        placeholder="例如：黑色皮质钱包 / iPhone 13"
+        placeholder-class="ph"
+        bindinput="onInput"
+      />
+    </view>
+
+    <view class="field">
+      <text class="label">物品分类</text>
+      <picker mode="selector" range="{{cats}}" value="{{catIndex}}" bindchange="onCat">
+        <view class="picker">
+          <text>{{cats[catIndex]}}</text>
+          <text class="arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <text class="label">地点 <text class="req">*</text></text>
+      <picker mode="selector" range="{{places}}" value="{{placeIndex}}" bindchange="onPlace">
+        <view class="picker">
+          <text>{{places[placeIndex]}}</text>
+          <text class="arrow">▾</text>
+        </view>
+      </picker>
+      <input
+        class="input mt"
+        data-key="placeDetail"
+        value="{{placeDetail}}"
+        maxlength="20"
+        placeholder="补充具体位置（选填），如：三楼靠窗 A12"
+        placeholder-class="ph"
+        bindinput="onInput"
+      />
+    </view>
+
+    <view class="field">
+      <text class="label">时间 <text class="req">*</text></text>
+      <picker mode="date" value="{{time}}" start="2020-01-01" end="{{today}}" bindchange="onTime">
+        <view class="picker">
+          <text>{{time}}</text>
+          <text class="arrow">▾</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="card">
+    <text class="label">特征标签 <text class="tip">（越具体，匹配越准）</text></text>
+    <view class="feat-input">
+      <input
+        class="input flex1"
+        data-key="featInput"
+        value="{{featInput}}"
+        maxlength="12"
+        placeholder="输入特征后回车添加，如：黑色"
+        placeholder-class="ph"
+        bindinput="onFeatInput"
+        confirm-type="done"
+        bindconfirm="addFeat"
+      />
+      <view class="add-btn" bindtap="addFeat"><text>添加</text></view>
+    </view>
+
+    <view class="chips" wx:if="{{features.length > 0}}">
+      <view class="chip" wx:for="{{features}}" wx:key="*this" data-value="{{item}}" bindtap="delFeat">
+        <text>{{item}} ✕</text>
+      </view>
+    </view>
+
+    <view class="chips">
+      <view class="chip chip-gray" wx:for="{{quickFeats}}" wx:key="*this" data-value="{{item}}" bindtap="addQuickFeat">
+        <text>+ {{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <text class="label">详细描述 <text class="req">*</text></text>
+    <textarea
+      class="textarea"
+      data-key="desc"
+      value="{{desc}}"
+      maxlength="300"
+      placeholder="说说物品的外观、内含物、丢失/拾获的经过，这些信息会用于智能匹配"
+      placeholder-class="ph"
+      bindinput="onInput"
+    />
+    <text class="counter">{{desc.length}}/300</text>
+  </view>
+
+  <view class="card">
+    <text class="label">现场照片 <text class="tip">（选填，最多 6 张）</text></text>
+    <view class="imgs">
+      <view class="img-box" wx:for="{{images}}" wx:key="*this">
+        <image class="img" src="{{item}}" mode="aspectFill" data-url="{{item}}" bindtap="previewImage" />
+        <view class="img-del" data-url="{{item}}" bindtap="delImage"><text>✕</text></view>
+      </view>
+      <view class="img-add" wx:if="{{images.length < 6}}" bindtap="chooseImage">
+        <text class="img-plus">＋</text>
+        <text class="img-tip">上传照片</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="field">
+      <text class="label">联系方式 <text class="req">*</text></text>
+      <input
+        class="input"
+        data-key="contact"
+        value="{{contact}}"
+        maxlength="30"
+        placeholder="微信号 / 手机号，仅匹配成功方可见"
+        placeholder-class="ph"
+        bindinput="onInput"
+      />
+    </view>
+  </view>
+
+  <view class="notice">
+    <text class="notice-t">发布须知</text>
+    <text class="notice-d">· 请如实描述，冒领他人财物将承担相应责任</text>
+    <text class="notice-d">· 涉及证件、银行卡等敏感物品，建议线下核验后再交付</text>
+    <text class="notice-d">· 找到后请及时回到「我的发布」中标记为已解决</text>
+  </view>
+
+  <view class="btn submit {{submitting ? 'btn-off' : ''}}" bindtap="submit">
+    <text>{{submitting ? '正在发布…' : '提交并智能匹配'}}</text>
+  </view>
+</view>

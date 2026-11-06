@@ -1,0 +1,103 @@
+.icard {
+  display: flex;
+  flex-direction: row;
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 24rpx;
+  margin: 0 24rpx 20rpx;
+  box-sizing: border-box;
+}
+
+.ic-left {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-right: 24rpx;
+}
+
+.bg-lost {
+  background: #FFF1EC;
+}
+
+.bg-found {
+  background: #E8F9F1;
+}
+
+.ic-emoji {
+  font-size: 56rpx;
+}
+
+.ic-closed {
+  font-size: 18rpx;
+  color: #8A8FA3;
+  margin-top: 4rpx;
+}
+
+.ic-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ic-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1D26;
+  flex: 1;
+  margin-right: 12rpx;
+}
+
+.ic-line {
+  margin-top: 8rpx;
+}
+
+.ic-place {
+  font-size: 24rpx;
+  color: #8A8FA3;
+}
+
+.ic-feats {
+  display: flex;
+  flex-direction: row;
+  margin-top: 12rpx;
+}
+
+.ic-feat {
+  font-size: 20rpx;
+  color: #3A6BFF;
+  background: #EAF0FF;
+  border-radius: 8rpx;
+  padding: 4rpx 12rpx;
+  margin-right: 10rpx;
+}
+
+.ic-foot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 14rpx;
+}
+
+.ic-clue {
+  font-size: 22rpx;
+  color: #8A8FA3;
+  margin-right: 16rpx;
+}
+
+.ic-best {
+  font-size: 22rpx;
+  color: #FF9F43;
+  background: #FFF6E9;
+  border-radius: 8rpx;
+  padding: 4rpx 12rpx;
+}
+
+.ic-best-high {
+  color: #FF4D4F;
+  background: #FFECE8;
+}

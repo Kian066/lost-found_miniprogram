@@ -1,0 +1,9 @@
+{
+  "name": "ai",
+  "version": "1.0.0",
+  "description": "AI 辅助填写：从文字/图片提取发布表单建议（无 key 时走规则兜底）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

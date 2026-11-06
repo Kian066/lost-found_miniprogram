@@ -1,0 +1,50 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/publish/publish",
+    "pages/match/match",
+    "pages/mine/mine",
+    "pages/detail/detail",
+    "pages/mylist/mylist",
+    "pages/claim/apply/apply",
+    "pages/claim/list/list",
+    "pages/claim/detail/detail",
+    "pages/admin/admin"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "校园失物招领",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F5F6FA",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#8A8FA3",
+    "selectedColor": "#3A6BFF",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "广场"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "text": "发布"
+      },
+      {
+        "pagePath": "pages/match/match",
+        "text": "线索匹配"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "renderer": "webview",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

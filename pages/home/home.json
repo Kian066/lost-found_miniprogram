@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "失物招领广场",
+  "usingComponents": {
+    "item-card": "/components/item-card/item-card"
+  }
+}
